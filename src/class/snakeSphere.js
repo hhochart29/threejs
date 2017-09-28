@@ -17,11 +17,11 @@ class snakeSphere {
         const material = new THREE.MeshPhongMaterial(
             {
                 color: this.color,
-                emissive: 0x000000,
-                specular: 0x111111,
+                specular: 'white'
             });
-        // const material = new THREE.MeshNormalMaterial();
         const snake = new THREE.Mesh(geometry, material);
+        snake.castShadow = true;
+        // Ou sur le groupe : group.traverse(e => (e.castshadow = true));
         snake.position.set(this.x, this.y, this.z);
         return snake;
     }

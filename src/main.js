@@ -18,7 +18,10 @@ const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerH
 camera.position.z = 10;
 
 //Renderer
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
+renderer.shadowMap.enabled = true;
 //control
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -30,7 +33,12 @@ const light = new THREE.AmbientLight(0x404040);
 scene.add(light);
 
 const spotLight = new THREE.SpotLight(0xffffff);
-spotLight.position.set(50,50,0);
+spotLight.angle = 5 * (Math.PI / 180);
+spotLight.penumbra = 0.9;
+spotLight.decay = 2;
+spotLight.distance = 2000;
+spotLight.position.set(50, 60, 0);
+spotLight.castShadow = true;
 scene.add(spotLight);
 
 const spotightHelper = new THREE.SpotLightHelper(spotLight);
@@ -56,8 +64,16 @@ scene.add(snakeBodyGroup);
 const eyes = new snakeSphere().drawEye();
 scene.add(eyes);
 
+const planeGeometry = new THREE.PlaneGeometry(50, 50);
+const planeMaterial = new THREE.MeshPhongMaterial({
+    color: 'grey',
+    side: THREE.DoubleSide
+});
+const floor = new THREE.Mesh(planeGeometry, planeMaterial);
+floor.receiveShadow = true;
+floor.rotation.x = Math.PI / 2;
+scene.add(floor);
 
-//TODO: add ground to the scene & shadows according to the snake - reflecting on the ground
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
