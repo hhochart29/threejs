@@ -4,6 +4,7 @@ import snakeSphere from './class/snakeSphere';
 import Stats from 'stats.js';
 import './main.css';
 
+let sphereArray = [];
 //Gestion des controles
 const OrbitControls = ThreeOrbitControls(THREE);
 
@@ -25,10 +26,29 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const axisHelper = new THREE.AxisHelper(10);
 scene.add(axisHelper);
 
-let snakeGroup = new THREE.Group();
-let snake = new snakeSphere(1, 1, 1);
-snakeGroup.add(snake);
-scene.add(snakeGroup);
+let snakeBodyGroup = new THREE.Group();
+let snakeEyeGroupLeft = new THREE.Group();
+let snakeEyeGroupRight = new THREE.Group();
+let snakeEyeGroup = new THREE.Group();
+
+//Création du corps du serpent
+for (let i = 0; i < 10; i++) {
+    let radius = 1;
+    let x = 1.7 * radius * i;
+    if (i % 2 === 0) {
+        const color = 'green';
+        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 0, 0, color).draw());
+    } else {
+        const color = 'lightgreen';
+        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 0, 0, color).draw());
+    }
+    // snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 0, 0, color).draw());
+}
+scene.add(snakeBodyGroup);
+
+//création des yeux
+const eyes = new snakeSphere().drawEye();
+scene.add(eyes);
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -36,6 +56,7 @@ document.body.appendChild(renderer.domElement);
 const animate = timestamp => {
     stats.begin();
     stats.end();
+
 
     // snakeGroup.position.x = i;
     // i += 0.01;
