@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import ThreeOrbitControls from './utils/OrbitControls';
+import snakeSphere from './class/snakeSphere';
 import Stats from 'stats.js';
 import './main.css';
 
@@ -17,7 +18,6 @@ camera.position.z = 10;
 
 //Renderer
 const renderer = new THREE.WebGLRenderer();
-
 //control
 const controls = new OrbitControls(camera, renderer.domElement);
 
@@ -25,42 +25,21 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const axisHelper = new THREE.AxisHelper(10);
 scene.add(axisHelper);
 
-//Read the fucking manual : Geometry
-const geometry = new THREE.BoxGeometry(2, 1, 1);
-const material = new THREE.MeshBasicMaterial({
-    color: 'red',
-});
-
-//Premier bloc
-const mesh = new THREE.Mesh(geometry, material);
-let firstGroup = new THREE.Group();
-firstGroup.add( mesh );
-
-//Deuxieme bloc
-const mesh2 = new THREE.Mesh(geometry, material);
-mesh2.position.set(0, 5, 0);
-firstGroup.add( mesh2 );
-scene.add(firstGroup);
+let snakeGroup = new THREE.Group();
+let snake = new snakeSphere(1, 1, 1);
+snakeGroup.add(snake);
+scene.add(snakeGroup);
 
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-let i = mesh.position.x;
-// let lastTimeStamp = 0;
-// const INTERVAL = 200;
 const animate = timestamp => {
     stats.begin();
     stats.end();
 
-    firstGroup.position.x = i;
-    i += 0.01;
+    // snakeGroup.position.x = i;
+    // i += 0.01;
 
-    // Gestion du temps avec lasttimestamp
-    // if(timestamp - lastTimeStamp > INTERVAL) {
-    //     mesh.position.x = i % 10;
-    //     i++;
-    //     lastTimeStamp = timestamp;
-    // }
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
 };

@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
     entry: './src/main.js',
+    devtool: "eval-source-map",
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist')
@@ -31,6 +32,6 @@ module.exports = {
     plugins,
     devServer: {
         host: '0.0.0.0',
-        port: 1501,
+        port: 1502,
     }
 };
