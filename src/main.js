@@ -26,10 +26,17 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const axisHelper = new THREE.AxisHelper(10);
 scene.add(axisHelper);
 
+const light = new THREE.AmbientLight(0x404040);
+scene.add(light);
+
+const spotLight = new THREE.SpotLight(0xffffff);
+spotLight.position.set(50,50,0);
+scene.add(spotLight);
+
+const spotightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotightHelper);
+
 let snakeBodyGroup = new THREE.Group();
-let snakeEyeGroupLeft = new THREE.Group();
-let snakeEyeGroupRight = new THREE.Group();
-let snakeEyeGroup = new THREE.Group();
 
 //Création du corps du serpent
 for (let i = 0; i < 10; i++) {
@@ -37,12 +44,11 @@ for (let i = 0; i < 10; i++) {
     let x = 1.7 * radius * i;
     if (i % 2 === 0) {
         const color = 'green';
-        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 0, 0, color).draw());
+        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 1, 0, color).draw());
     } else {
         const color = 'lightgreen';
-        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 0, 0, color).draw());
+        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 1, 0, color).draw());
     }
-    // snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 0, 0, color).draw());
 }
 scene.add(snakeBodyGroup);
 
@@ -50,6 +56,8 @@ scene.add(snakeBodyGroup);
 const eyes = new snakeSphere().drawEye();
 scene.add(eyes);
 
+
+//TODO: add ground to the scene & shadows according to the snake - reflecting on the ground
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 

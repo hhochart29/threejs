@@ -12,15 +12,15 @@ class snakeSphere {
         this.color = color;
     }
 
-    //TODO: change 1 material for MeshNormalMaterial //CF Doc
-
     draw() {
         const geometry = new THREE.SphereGeometry(this.radius, this.widthSegments, this.heightSegments, );
-        // const material = new THREE.MeshBasicMaterial(
-        //     {
-        //         color: this.color
-        //     });
-        const material = new THREE.MeshNormalMaterial();
+        const material = new THREE.MeshPhongMaterial(
+            {
+                color: this.color,
+                emissive: 0x000000,
+                specular: 0x111111,
+            });
+        // const material = new THREE.MeshNormalMaterial();
         const snake = new THREE.Mesh(geometry, material);
         snake.position.set(this.x, this.y, this.z);
         return snake;
@@ -30,14 +30,14 @@ class snakeSphere {
         const geometry = new THREE.SphereGeometry(0.2, 10, 10);
         const material = new THREE.MeshBasicMaterial(
             {
-                color: 'red'
+                color: 'red',
             });
 
         const eyeGroup = new THREE.Group();
         const lefteye = new THREE.Mesh(geometry, material);
-        lefteye.position.set(-0.7, 0.4, -0.4);
+        lefteye.position.set(-0.7, 1.3, -0.4);
         const righteye = lefteye.clone();
-        righteye.position.set(-0.7, 0.4, 0.4);
+        righteye.position.set(-0.7, 1.3, 0.4);
 
         eyeGroup.add(lefteye);
         eyeGroup.add(righteye);
