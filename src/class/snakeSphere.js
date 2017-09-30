@@ -13,7 +13,7 @@ class snakeSphere {
     }
 
     draw() {
-        const geometry = new THREE.SphereGeometry(this.radius, this.widthSegments, this.heightSegments, );
+        const geometry = new THREE.SphereGeometry(this.radius, this.widthSegments, this.heightSegments);
         const material = new THREE.MeshPhongMaterial(
             {
                 color: this.color,

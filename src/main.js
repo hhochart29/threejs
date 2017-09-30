@@ -44,21 +44,20 @@ scene.add(spotLight);
 const spotightHelper = new THREE.SpotLightHelper(spotLight);
 scene.add(spotightHelper);
 
-let snakeBodyGroup = new THREE.Group();
-
 //Création du corps du serpent
+let snakeGroup = new THREE.Group();
 for (let i = 0; i < 10; i++) {
     let radius = 1;
     let x = 1.7 * radius * i;
     if (i % 2 === 0) {
         const color = 'green';
-        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 1, 0, color).draw());
+        snakeGroup.add(new snakeSphere(18, 18, radius, x, 1, 0, color).draw());
     } else {
         const color = 'lightgreen';
-        snakeBodyGroup.add(new snakeSphere(18, 18, radius, x, 1, 0, color).draw());
+        snakeGroup.add(new snakeSphere(18, 18, radius, x, 1, 0, color).draw());
     }
 }
-scene.add(snakeBodyGroup);
+scene.add(snakeGroup);
 
 //création des yeux
 const eyes = new snakeSphere().drawEye();
@@ -77,13 +76,22 @@ scene.add(floor);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+const speed = 0.025;
+const amplitude = 2;
+let ispeed = 0;
+
 const animate = timestamp => {
     stats.begin();
     stats.end();
+    ispeed += speed;
+    let i = 0;
 
-
-    // snakeGroup.position.x = i;
-    // i += 0.01;
+    snakeGroup.children.forEach(e => {
+        i += 0.75;
+        e.position.z = amplitude * Math.sin(ispeed - i);
+    });
+    eyes.rotation.y = Math.sin(ispeed);
+    eyes.position.z = snakeGroup.children[0].position.z;
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
