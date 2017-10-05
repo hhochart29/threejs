@@ -1,6 +1,6 @@
 ## Preview
 
-https://hhochart29.github.io/Canvas_collision/
+https://hhochart29.github.io/threejs/
 
 
 ## Install :
