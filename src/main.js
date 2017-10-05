@@ -26,8 +26,8 @@ renderer.shadowMap.enabled = true;
 const controls = new OrbitControls(camera, renderer.domElement);
 
 //Dessine les axes de la scène
-const axisHelper = new THREE.AxisHelper(10);
-scene.add(axisHelper);
+// const axisHelper = new THREE.AxisHelper(10);
+// scene.add(axisHelper);
 
 const light = new THREE.AmbientLight(0x404040);
 scene.add(light);
@@ -41,8 +41,8 @@ spotLight.position.set(50, 60, 0);
 spotLight.castShadow = true;
 scene.add(spotLight);
 
-const spotightHelper = new THREE.SpotLightHelper(spotLight);
-scene.add(spotightHelper);
+// const spotightHelper = new THREE.SpotLightHelper(spotLight);
+// scene.add(spotightHelper);
 
 //Création du corps du serpent
 let snakeGroup = new THREE.Group();
@@ -63,9 +63,13 @@ scene.add(snakeGroup);
 const eyes = new snakeSphere().drawEye();
 scene.add(eyes);
 
+//création de la langue
+const tongue = new snakeSphere().drawTongue();
+scene.add(tongue);
+
 const planeGeometry = new THREE.PlaneGeometry(50, 50);
 const planeMaterial = new THREE.MeshPhongMaterial({
-    color: 'grey',
+    color: 'lightgreen',
     side: THREE.DoubleSide
 });
 const floor = new THREE.Mesh(planeGeometry, planeMaterial);
@@ -92,6 +96,8 @@ const animate = timestamp => {
     });
     eyes.rotation.y = Math.sin(ispeed);
     eyes.position.z = snakeGroup.children[0].position.z;
+    tongue.rotation.y = Math.sin(ispeed);
+    tongue.position.z = snakeGroup.children[0].position.z;
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);
